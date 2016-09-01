@@ -4,10 +4,8 @@
 Adafruit_VCNL4010 vcnl;       //Setup proximity sensor
 unsigned long initPosit = 0;  //The variable that stores the initial position of the cow
 const int stage1Lim = 5000;   //Distance for stage 1
-const int stage2Lim = 8000;   //Distance for stage 2
 
-const int stage1Speed = 180;  //Speed for stage 1
-const int stage2Speed = 255;  //Speed for stage 2 (Motor speed ranges from 0-255)
+const int stage1Speed = 255;  //Speed for stage 1
 
 const int motorPin = 3;   //Output pin for motor
 unsigned long read = 0;   //Variable that stores the read value of the proximity sensor (always positive so use unsigned long)
@@ -36,12 +34,10 @@ void loop() {
 		analogWrite(motorPin, 0);             //Write 0 (volts) to the motor
 		Serial.println("Motor stage 0");      //Print in serial monitor
 	}
-	else if (distance >= stage1Lim && distance < stage2Lim) {   //If distance between stage 1 limit and stage 2 limit
-		analogWrite(motorPin, stage1Speed);                     //Turn on the motor to speed set for stage 1
+
+	else {             //If distance is larger than stage 1 limit
+		analogWrite(motorPin, stage1Speed);       //Turn on the motor to speed set for stage 1
 		Serial.println("Motor stage 1");
 	}
-	else if (distance >= stage2Lim) {             //If distance is larger than stage 2 limit
-		analogWrite(motorPin, stage2Speed);       //Turn on the motor to speed set for stage 2
-		Serial.println("Motor stage 2");
-	}
+	delay(200);
 }
